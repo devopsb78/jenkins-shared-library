@@ -12,7 +12,7 @@ def call() {
             }
             checkout scmGit(
                     branches: [[name: "${branch_name}"]],
-                    userRemoteConfigs: [[url: "https://github.com/raghudevopsb78/roboshop-${component}"]]
+                    userRemoteConfigs: [[url: "https://github.com/devopsb78/expense-${component}"]]
             )
         }
 
