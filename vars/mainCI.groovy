@@ -22,7 +22,7 @@ def call() {
             }
             stage('Release Software') {
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 368761340104.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'docker push -t 368761340104.dkr.ecr.us-east-1.amazonaws.com/expense-${component}:${TAG_NAME}'
+                sh 'docker push  368761340104.dkr.ecr.us-east-1.amazonaws.com/expense-${component}:${TAG_NAME}'
             }
         }
         else {
