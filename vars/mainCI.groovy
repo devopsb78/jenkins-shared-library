@@ -24,6 +24,12 @@ def call() {
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 368761340104.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker push  368761340104.dkr.ecr.us-east-1.amazonaws.com/expense-${component}:${TAG_NAME}'
             }
+            stage('Deploy to Dev') {
+                sh 'aws eks update-kubeconfig --name dev-eks'
+                sh 'argocd login $(kubectl get svc -n argocd argocd-server | awk \'{print $4}\' | tail -1) --username admin --password $(argocd admin initial-password -n argocd | head -1) --insecure --grpc-web'
+                sh 'argocd app set ${component} --parameter appVersion=${TAG_NAME}'
+                sh 'argocd app sync ${component}'
+            }
         }
         else {
             stage('Lint Code') {
